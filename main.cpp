@@ -27,6 +27,9 @@ int main(int argc, char **argv){
 	cout << "start time = " << buffer << endl;
 	
 	
+	CRC crc;
+	crc.CoutCRCsetting();
+	
 	
 	return 0;
 }

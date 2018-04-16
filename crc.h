@@ -27,7 +27,21 @@
 using namespace std;
 
 
+class CRC{
 
+private:
+	int num_crc_bit_;
+	bool* crc_polynomial_;		// true as 1, MSB
+	int num_input_;
+	bool* in_arr_;				// ture as 1
+	vector<bool*> reg_vect_;
+
+public:
+	CRC();
+	
+	void CoutCRCsetting();
+
+};
 
 
 
