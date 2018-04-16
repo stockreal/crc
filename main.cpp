@@ -29,7 +29,7 @@ int main(int argc, char **argv){
 	
 	CRC crc;
 	crc.CoutCRCsetting();
-	
+	crc.CRCrun();
 	
 	return 0;
 }
