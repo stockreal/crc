@@ -34,7 +34,7 @@ private:
 	bool* crc_polynomial_;		// true as 1, LSB
 	int num_input_;
 	bool* in_arr_;				// ture as 1
-	vector<bool*> reg_vect_;
+	vector< vector<bool> > reg_vect_;
 	
 	int state_;					// start from 0 end with num_input_
 
@@ -42,11 +42,11 @@ public:
 	CRC();
 	
 	void CoutCRCsetting();
-	void CoutReg(bool* reg_arr);
-	void CoutRegVect(vector<bool*>&);
-	void CRCnext();
+	void CoutReg(vector<bool> reg_arr);
+	void CoutRegVect(vector< vector<bool> >&);
+	void CRCnext(); 
 	void CRCrun();
-	void InitRegVect(vector<bool*>);
+	void InitRegVect(vector< vector<bool> >);
 
 };
 

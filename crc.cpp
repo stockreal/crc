@@ -35,7 +35,7 @@ CRC::CRC(){
 	}
 	reg_vect_.resize(num_crc_bit_);
 	for(int i=0; i<num_crc_bit_; i++){
-		reg_vect_[i] = new bool[num_input_];
+		reg_vect_[i].resize(num_input_);
 		for(int j=0; j<num_input_; j++){
 			reg_vect_[i][j] = 0;
 		}
@@ -66,7 +66,7 @@ void CRC::CoutCRCsetting(){
 	}
 }
 
-void CRC::CoutReg(bool* reg_arr){
+void CRC::CoutReg(vector<bool> reg_arr){
 	// string in = "in";
 	// string xor_str = " ^ ";
 	bool flag = false;
@@ -85,7 +85,7 @@ void CRC::CoutReg(bool* reg_arr){
 	cout << endl;
 }
 
-void CRC::CoutRegVect(vector<bool*>& reg_vect){
+void CRC::CoutRegVect(vector< vector<bool> >& reg_vect){
 	for(int i=0; i<num_crc_bit_; i++){
 		cout << "Reg" << i << " = ";
 		CoutReg(reg_vect[i]);
@@ -98,29 +98,29 @@ void CRC::CRCnext(){
 	if(state_ < num_crc_bit_){		// right shift
 		rotate(reg_vect_.begin(),reg_vect_.begin()+num_crc_bit_-1,reg_vect_.end());
 		if(in_arr_[state_]){
-			reg_vect_[0][state_] ^= 1;
+			reg_vect_[0][state_] = ~reg_vect_[0][state_];
 		}
 	}else{
-		vector<bool*> reg_vect_tmp;
+		vector< vector<bool> > reg_vect_tmp(reg_vect_);
 		// InitRegVect(reg_vect_tmp);
-		reg_vect_tmp.assign(reg_vect_);
+		// reg_vect_tmp.assign(reg_vect_);
 		rotate(reg_vect_tmp.begin(),reg_vect_tmp.begin()+num_crc_bit_-1,reg_vect_tmp.end());
 		if(in_arr_[state_]){
-			reg_vect_tmp[0][state_] ^= 1;
+			reg_vect_tmp[0][state_] = ~reg_vect_tmp[0][state_];
 		}
 		for(int i=1; i<num_crc_bit_; i++){
 			if(crc_polynomial_[i]){
-				cout << "reg_vect_tmp" << i << " = ";
-				CoutReg(reg_vect_tmp[i]);
-				cout << "reg_vect_" << num_crc_bit_-1 << " = ";
-				CoutReg(reg_vect_[num_crc_bit_-1]);
+				// cout << "reg_vect_tmp" << i << " = ";
+				// CoutReg(reg_vect_tmp[i]);
+				// cout << "reg_vect_" << num_crc_bit_-1 << " = ";
+				// CoutReg(reg_vect_[num_crc_bit_-1]);
 				for(int j=0; j<num_input_; j++){
 					if(reg_vect_[num_crc_bit_-1][j]){
-						reg_vect_tmp[i][j] ^= 1;
+						reg_vect_tmp[i][j] = ~reg_vect_tmp[i][j];
 					}
 				}
-				cout << "reg_vect_tmp" << i << " = ";
-				CoutReg(reg_vect_tmp[i]);
+				// cout << "reg_vect_tmp" << i << " = ";
+				// CoutReg(reg_vect_tmp[i]);
 			}			
 		}
 		reg_vect_.assign(reg_vect_tmp.begin(),reg_vect_tmp.end());
@@ -140,10 +140,10 @@ void CRC::CRCrun(){
 	}
 }
 
-void CRC::InitRegVect(vector<bool*> reg_vect){
+void CRC::InitRegVect(vector< vector<bool> > reg_vect){
 	reg_vect.resize(num_crc_bit_);
 	for(int i=0; i<num_crc_bit_; i++){
-		reg_vect[i] = new bool[num_input_];
+		reg_vect[i].resize(num_input_);
 		for(int j=0; j<num_input_; j++){
 			reg_vect[i][j] = 0;
 		}
