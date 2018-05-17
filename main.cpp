@@ -4,6 +4,7 @@
  // Description: 
  //
  // Change history: Apr. 15, 2018 - file created.
+ //					May. 16, 2018 - multi-bit crc.
  //
  ///////////////////////////////////////////////////////////////////////////////
 
@@ -29,7 +30,7 @@ int main(int argc, char **argv){
 	
 	CRC crc;
 	crc.CoutCRCsetting();
-	crc.CRCrun();
+	// crc.CRCrun();
 	
 	return 0;
 }

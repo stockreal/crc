@@ -30,23 +30,23 @@ using namespace std;
 class CRC{
 
 private:
-	int num_crc_bit_;
-	bool* crc_polynomial_;		// true as 1, LSB
-	int num_input_;
-	bool* in_arr_;				// ture as 1
-	vector< vector<bool> > reg_vect_;
+	int num_crc_bit_;					// also mean the input size and state size
+	bool* crc_polynomial_;				// true as 1, LSB
+	// int num_input_;
+	// bool* in_arr_;					// ture as 1
+	vector< vector<bool> > reg_vect_;	// num_crc_bit_ * (num_crc_bit_ * 2) of matrix
 	
-	int state_;					// start from 0 end with num_input_
+	int state_;							// start from 0 end with num_input_
 
 public:
 	CRC();
 	
 	void CoutCRCsetting();
-	void CoutReg(vector<bool> reg_arr);
+	void CoutReg(vector<bool> reg_arr, int);
 	void CoutRegVect(vector< vector<bool> >&);
-	void CRCnext(); 
-	void CRCrun();
-	void InitRegVect(vector< vector<bool> >);
+	// void CRCnext(); 
+	// void CRCrun();
+	// void InitRegVect(vector< vector<bool> >);
 
 };
 
