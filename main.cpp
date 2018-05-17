@@ -30,7 +30,8 @@ int main(int argc, char **argv){
 	
 	CRC crc;
 	crc.CoutCRCsetting();
-	// crc.CRCrun();
+	crc.CRCcal();
+	crc.CoutRegVect();
 	
 	return 0;
 }

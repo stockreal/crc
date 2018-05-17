@@ -43,7 +43,9 @@ public:
 	
 	void CoutCRCsetting();
 	void CoutReg(vector<bool> reg_arr, int);
-	void CoutRegVect(vector< vector<bool> >&);
+	void CoutRegVect();
+	void CRCcal();
+	void CRCcalReg(vector<bool>& , int);
 	// void CRCnext(); 
 	// void CRCrun();
 	// void InitRegVect(vector< vector<bool> >);

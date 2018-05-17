@@ -40,14 +40,7 @@ void CRC::CoutCRCsetting(){
 	cout << endl;
 	cout << "Initial register vector:\n";
 	
-	CoutRegVect(reg_vect_);
-	// for(int i=0; i<num_crc_bit_; i++){
-		// cout << "register " << i << " = ";
-		// for(int j=0; j<num_input_; j++){
-			// cout << noboolalpha << reg_vect_[i][j];
-		// }
-		// cout << endl;
-	// }
+	CoutRegVect();
 }
 
 // void CRC::CoutReg(vector<bool> reg_arr){
@@ -71,32 +64,59 @@ void CRC::CoutReg(vector<bool> reg_arr, int index){
 	int reg = index % num_crc_bit_;
 	int stage = index / num_crc_bit_;
 	cout << "R" << reg << "," << stage << " = ";
+	bool flag = false;
 	for(int i=0; i<num_crc_bit_; i++){
 		if(reg_arr[i]){
-			cout << "^ in" << i;
+			if(flag){
+				cout << " ^ in" << i;
+			}else{
+				cout << "in" << i;
+				flag = true;
+			}
 		}
 	}
 	for(int i=num_crc_bit_; i<2*num_crc_bit_; i++){
 		if(reg_arr[i]){
-			cout << "^ r" << reg << "," << stage-1;
+			if(flag){
+				cout << " ^ r" << i-num_crc_bit_ << "," << stage-1;
+			}else{
+				cout << "r" << i-num_crc_bit_ << "," << stage-1;
+				flag = true;
+			}
 		}
 	}
 	cout << endl;
 }
 
-void CRC::CoutRegVect(vector< vector<bool> >& reg_vect){
+void CRC::CoutRegVect(){
 	
-	for(unsigned int i=0; i<reg_vect.size(); i++){
+	for(unsigned int i=0; i<reg_vect_.size(); i++){
 		
 		if(i % 4 == 0){
 			cout << "------------stage "<< i/4 <<"--------------" << endl;
 		}
-		// cout << "R" << i % 4 << " = ";
-		// for(int j=0; j<(num_crc_bit_*2); j++){
-			CoutReg(reg_vect[i],i);
-		// }
+		CoutReg(reg_vect_[i],i);
 	}
-	cout << "--------------end----------------" << endl;
+	cout << "--------------end----------------\n" << endl;
+}
+
+void CRC::CRCcal(){
+	for(unsigned int i=0; i<reg_vect_.size(); i++){
+		CRCcalReg(reg_vect_[i],i);
+	}
+}
+
+void CRC::CRCcalReg(vector<bool>& reg_arr, int index){
+	int reg = index % num_crc_bit_;
+	int stage = index / num_crc_bit_;
+	if(reg == 0){
+		reg_arr[stage] = ~reg_arr[stage];
+	}else{
+		reg_arr[num_crc_bit_+reg-1] = ~reg_arr[num_crc_bit_+reg-1];
+	}
+	if(crc_polynomial_[reg]){
+		reg_arr[2*num_crc_bit_-1] = ~reg_arr[2*num_crc_bit_-1];
+	}
 }
 
 // void CRC::CRCnext(){
