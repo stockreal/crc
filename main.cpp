@@ -32,6 +32,8 @@ int main(int argc, char **argv){
 	crc.CoutCRCsetting();
 	crc.CRCcal();
 	crc.CoutRegVect();
+	crc.SimplifyRegVect();
+	crc.CoutFinalRegVect();
 	
 	return 0;
 }

@@ -42,8 +42,12 @@ public:
 	CRC();
 	
 	void CoutCRCsetting();
+	void SimplifyReg(vector<bool>&, int);
+	void SimplifyRegVect();
 	void CoutReg(vector<bool> reg_arr, int);
+	void CoutRegFinal(vector<bool> reg_arr, int);
 	void CoutRegVect();
+	void CoutFinalRegVect();
 	void CRCcal();
 	void CRCcalReg(vector<bool>& , int);
 	// void CRCnext(); 

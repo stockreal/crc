@@ -43,34 +43,44 @@ void CRC::CoutCRCsetting(){
 	CoutRegVect();
 }
 
-// void CRC::CoutReg(vector<bool> reg_arr){
-	// bool flag = false;
-	// for(int i=0; i<num_input_; i++){
-		// if(reg_arr[i]){
-			// if(flag){
-				// cout << " ^ ";
-			// }
-			// cout << "in" << i;
-			// flag = true;
-		// }
-	// }
-	// if(!flag){
-		// cout << "0";
-	// }
-	// cout << endl;
-// }
+void CRC::SimplifyReg(vector<bool>& reg_arr, int index){
+	// int reg = index % num_crc_bit_;
+	int stage = index / num_crc_bit_;
+	vector<bool> temp_reg_vect;
+	temp_reg_vect.resize(num_crc_bit_);
+	for(int i=0; i<num_crc_bit_; i++){
+		temp_reg_vect[i] = reg_arr[num_crc_bit_+i];
+		reg_arr[num_crc_bit_+i] = 0;
+	}
+	for(int i=0; i<num_crc_bit_; i++){
+		if(temp_reg_vect[i]){
+			int temp_index = (stage-1) * num_crc_bit_ + i;
+			for(int j=0; j<num_crc_bit_*2; j++){
+				if(reg_vect_[temp_index][j]){
+					reg_arr[j] = ~reg_arr[j];
+				}
+			}
+		}
+	}
+}
+
+void CRC::SimplifyRegVect(){
+	for(unsigned int i=num_crc_bit_; i<reg_vect_.size(); i++){
+		SimplifyReg(reg_vect_[i],i);
+	}
+}
 
 void CRC::CoutReg(vector<bool> reg_arr, int index){
 	int reg = index % num_crc_bit_;
-	int stage = index / num_crc_bit_;
+	int stage = index / num_crc_bit_ + 1;
 	cout << "R" << reg << "," << stage << " = ";
 	bool flag = false;
 	for(int i=0; i<num_crc_bit_; i++){
 		if(reg_arr[i]){
 			if(flag){
-				cout << " ^ in" << i;
+				cout << " ^ in" << setw(2) << i;
 			}else{
-				cout << "in" << i;
+				cout << "in" << setw(2) << i;
 				flag = true;
 			}
 		}
@@ -85,6 +95,36 @@ void CRC::CoutReg(vector<bool> reg_arr, int index){
 			}
 		}
 	}
+	
+	cout << endl;
+}
+
+void CRC::CoutRegFinal(vector<bool> reg_arr, int index){
+	int reg = index % num_crc_bit_;
+	int stage = index / num_crc_bit_ + 1;
+	cout << "R" << reg << "," << stage << " = ";
+	bool flag = false;
+	for(int i=0; i<num_crc_bit_; i++){
+		if(reg_arr[i]){
+			if(flag){
+				cout << " ^ in" << setw(2) << i;
+			}else{
+				cout << "in" << setw(2) << i;
+				flag = true;
+			}
+		}
+	}
+	for(int i=num_crc_bit_; i<2*num_crc_bit_; i++){
+		if(reg_arr[i]){
+			if(flag){
+				cout << " ^ r" << i-num_crc_bit_ << "," << 0;
+			}else{
+				cout << "r" << i-num_crc_bit_ << "," << 0;
+				flag = true;
+			}
+		}
+	}
+	
 	cout << endl;
 }
 
@@ -96,6 +136,17 @@ void CRC::CoutRegVect(){
 			cout << "------------stage "<< i/4 <<"--------------" << endl;
 		}
 		CoutReg(reg_vect_[i],i);
+	}
+	cout << "--------------end----------------\n" << endl;
+}
+
+void CRC::CoutFinalRegVect(){
+	for(unsigned int i=0; i<reg_vect_.size(); i++){
+		
+		if(i % 4 == 0){
+			cout << "------------stage "<< i/4 <<"--------------" << endl;
+		}
+		CoutRegFinal(reg_vect_[i],i);
 	}
 	cout << "--------------end----------------\n" << endl;
 }
