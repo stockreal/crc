@@ -9,17 +9,75 @@
 
 #include "crc.h"
 
-// int crc_4[17] = {1,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0};
-// int crc_8[17] = {1,1,1,0,1,0,1,0,1,0,0,0,0,0,0,0,0};
-// int crc_16[17] = {1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1};
+// to be noticed: crc_polynomial_ is the invese array of the following one. 
+bool crc_4[4] = {0,0,1,1};
+bool crc_6[6] = {1,1,0,0,0,1};
+bool crc_11[11] = {1,1,0,0,0,1,0,0,0,0,1};
+bool crc_16[16] = {0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1};
+bool crc_24[24] = {1,0,1,1,0,0,1,0,1,0,1,1,0,0,0,1,0,0,0,1,0,1,1,1};
+// vector< bool* > _crc_vector;
 
 CRC::CRC(){
+	
+	// _crc_vector.resize(5);
+	// _crc_vector[0] = crc_4;
+	// _crc_vector[1] = crc_6;
+	// _crc_vector[2] = crc_11;
+	// _crc_vector[3] = crc_16;
+	// _crc_vector[4] = crc_24;
+	
 	num_crc_bit_ = 4;
 	crc_polynomial_ = new bool[num_crc_bit_];
-	crc_polynomial_[0] = 1;		// LSB
-	crc_polynomial_[1] = 1;
-	crc_polynomial_[2] = 0;
-	crc_polynomial_[3] = 0;
+	for(int i=0; i<num_crc_bit_; i++){
+		crc_polynomial_[i] = crc_4[num_crc_bit_-i-1];
+		// crc_polynomial_[i] = _crc_vector[0][num_crc_bit_-i-1];
+	}
+	
+	int n = num_crc_bit_ * num_crc_bit_;
+	reg_vect_.resize(n);		// num_crc_bit_**2 items
+	for(int i=0; i<n; i++){
+		reg_vect_[i].resize(num_crc_bit_*2);
+		for(int j=0; j<num_crc_bit_*2; j++){
+			reg_vect_[i][j] = 0;
+		}
+	}
+	state_ = 0;
+}
+
+CRC::CRC(int sel){
+	
+	if(sel == 6){
+		num_crc_bit_ = 6;
+		crc_polynomial_ = new bool[num_crc_bit_];
+		for(int i=0; i<num_crc_bit_; i++){
+			crc_polynomial_[i] = crc_6[num_crc_bit_-i-1];
+		}
+	}else if(sel == 11){
+		num_crc_bit_ = 11;
+		crc_polynomial_ = new bool[num_crc_bit_];
+		for(int i=0; i<num_crc_bit_; i++){
+			crc_polynomial_[i] = crc_11[num_crc_bit_-i-1];
+		}
+	}else if(sel == 16){
+		num_crc_bit_ = 16;
+		crc_polynomial_ = new bool[num_crc_bit_];
+		for(int i=0; i<num_crc_bit_; i++){
+			crc_polynomial_[i] = crc_16[num_crc_bit_-i-1];
+		}
+	}else if(sel == 24){
+		num_crc_bit_ = 24;
+		crc_polynomial_ = new bool[num_crc_bit_];
+		for(int i=0; i<num_crc_bit_; i++){
+			crc_polynomial_[i] = crc_24[num_crc_bit_-i-1];
+		}
+	}else{
+		num_crc_bit_ = 4;
+		crc_polynomial_ = new bool[num_crc_bit_];
+		for(int i=0; i<num_crc_bit_; i++){
+			crc_polynomial_[i] = crc_4[num_crc_bit_-i-1];
+		}
+	}
+	
 	int n = num_crc_bit_ * num_crc_bit_;
 	reg_vect_.resize(n);		// num_crc_bit_**2 items
 	for(int i=0; i<n; i++){
@@ -170,51 +228,3 @@ void CRC::CRCcalReg(vector<bool>& reg_arr, int index){
 	}
 }
 
-// void CRC::CRCnext(){
-	
-	// if(state_ < num_crc_bit_){		// right shift
-		// rotate(reg_vect_.begin(),reg_vect_.begin()+num_crc_bit_-1,reg_vect_.end());
-		// if(in_arr_[state_]){
-			// reg_vect_[0][state_] = ~reg_vect_[0][state_];
-		// }
-	// }else{
-		// vector< vector<bool> > reg_vect_tmp(reg_vect_);
-		// rotate(reg_vect_tmp.begin(),reg_vect_tmp.begin()+num_crc_bit_-1,reg_vect_tmp.end());
-		// if(in_arr_[state_]){
-			// reg_vect_tmp[0][state_] = ~reg_vect_tmp[0][state_];
-		// }
-		// for(int i=1; i<num_crc_bit_; i++){
-			// if(crc_polynomial_[i]){
-				// for(int j=0; j<num_input_; j++){
-					// if(reg_vect_[num_crc_bit_-1][j]){
-						// reg_vect_tmp[i][j] = ~reg_vect_tmp[i][j];
-					// }
-				// }
-			// }			
-		// }
-		// reg_vect_.assign(reg_vect_tmp.begin(),reg_vect_tmp.end());
-	// }
-	// ++state_;
-// }
-
-// void CRC::CRCrun(){
-	// cout << "CRC start running!!!\n";
-	// cout << "The initial state of reg:\n";
-	// CoutRegVect(reg_vect_);
-	
-	// for(int i=0; i<num_input_; i++){
-		// CRCnext();
-		// cout << "state " << i << ":\n";
-		// CoutRegVect(reg_vect_);
-	// }
-// }
-
-// void CRC::InitRegVect(vector< vector<bool> > reg_vect){
-	// reg_vect.resize(num_crc_bit_);
-	// for(int i=0; i<num_crc_bit_; i++){
-		// reg_vect[i].resize(num_input_);
-		// for(int j=0; j<num_input_; j++){
-			// reg_vect[i][j] = 0;
-		// }
-	// }
-// }
