@@ -10,4 +10,5 @@ make gpp
 
 ## example
 Below shows the bool equation of crc4.
+
 ![CRC4 bool equation](/images/crc_result.png)

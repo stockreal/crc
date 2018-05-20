@@ -194,7 +194,7 @@ void CRC::CoutRegVect(){
 	for(unsigned int i=0; i<reg_vect_.size(); i++){
 		
 		if(i % num_crc_bit_ == 0){
-			cout << "------------stage "<< i/num_crc_bit_ <<"--------------" << endl;
+			cout << "------------stage "<< i/num_crc_bit_ + 1 <<"--------------" << endl;
 		}
 		CoutReg(reg_vect_[i],i);
 	}
@@ -205,7 +205,7 @@ void CRC::CoutFinalRegVect(){
 	for(unsigned int i=0; i<reg_vect_.size(); i++){
 		
 		if(i % num_crc_bit_ == 0){
-			cout << "------------stage "<< i/num_crc_bit_ <<"--------------" << endl;
+			cout << "------------stage "<< i/num_crc_bit_ + 1 <<"--------------" << endl;
 		}
 		CoutRegFinal(reg_vect_[i],i);
 	}
@@ -279,6 +279,47 @@ void CRC::CoutCRCcyclic(){
 }
 
 // void CRC::CRCmultiCal(){
+	// crc_multi_ = new bool[num_crc_bit_];
+	// for(int i=0; i<num_crc_bit_; i++){
+		// crc_multi_[i] = 0;
+	// }
 	
+	// for(int i=num_of_input_-1; i>=0; i--){
+		// for(int j=num_crc_bit_-1; j>0; j--){
+			// if(crc_polynomial_[j]){
+				// crc_multi_[j] = crc_multi_[num_crc_bit_-1] ^ crc_multi_[j-1];
+			// }else{
+				// crc_multi_[j] = crc_multi_[j-1];
+			// }
+		// }
+		// if(crc_polynomial_[0]){
+			// crc_multi_[0] = crc_multi_[num_crc_bit_-1] ^ input_[i];
+		// }else{
+			// crc_multi_[0] = input_[i];
+		// }
+	// }
+	
+	// int index = num_of_input_-1;
+	// while(index >= num_crc_bit_){
+		// for(int i=0; i<num_crc_bit_; i++){
+			// if(reg_vect_[num_of_input_ - index - 1 - i][i]){
+				// crc_multi_[i] = crc_multi_[i] ^ input_[index-i];
+			// }
+			// if(reg_vect_[num_of_input_ - index - 1 - i][num_crc_bit_+i]){
+				// crc_multi_[i] = crc_multi_[i] ^ reg_vect_[num_of_input_ - index - 1][num_crc_bit_+i];
+			// }
+		// }
+		// index -= num_crc_bit_;
+	// }
+	// if(index > 0){
+		// for(int i=0; i<num_crc_bit_; i++){
+			// if(reg_vect_[num_of_input_ - index - 1 - i][i]){
+				// crc_multi_[i] = crc_multi_[i] ^ input_[index-i];
+			// }
+			// if(reg_vect_[num_of_input_ - index - 1 - i][num_crc_bit_+i]){
+				// crc_multi_[i] = crc_multi_[i] ^ reg_vect_[num_of_input_ - index - 1][num_crc_bit_+i];
+			// }
+		// }
+	// }
 // }
 
