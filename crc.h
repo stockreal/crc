@@ -35,8 +35,12 @@ private:
 	int num_crc_bit_;					// also mean the input size and state size
 	bool* crc_polynomial_;				// true as 1, LSB
 	vector< vector<bool> > reg_vect_;	// num_crc_bit_ * (num_crc_bit_ * 2) of matrix
+	int state_;							// start from 0 end with num_crc_bit_
 	
-	int state_;							// start from 0 end with num_input_
+	int num_of_input_;
+	bool* input_;						// random input bit for verification
+	bool* crc_multi_;					// crc bits gen by multi bits
+	bool* crc_cyclic_;					// crc bits gen by cyclic shift
 
 public:
 	CRC();
@@ -51,7 +55,14 @@ public:
 	void CoutFinalRegVect();
 	void CRCcal();
 	void CRCcalReg(vector<bool>& , int);
-
+	
+	// verification
+	void RandomizedInput(int num_of_input);
+	void CoutInput();
+	void CRCcheck();
+	void CoutCRCcyclic();
+	// void CRCmultiCal();
+	// void CoutCRCcyclic();
 };
 
 

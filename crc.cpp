@@ -25,6 +25,7 @@ CRC::CRC(){
 	// _crc_vector[2] = crc_11;
 	// _crc_vector[3] = crc_16;
 	// _crc_vector[4] = crc_24;
+	srand(time(NULL));
 	
 	num_crc_bit_ = 4;
 	crc_polynomial_ = new bool[num_crc_bit_];
@@ -45,6 +46,8 @@ CRC::CRC(){
 }
 
 CRC::CRC(int sel){
+	
+	srand(time(NULL));
 	
 	if(sel == 6){
 		num_crc_bit_ = 6;
@@ -227,4 +230,55 @@ void CRC::CRCcalReg(vector<bool>& reg_arr, int index){
 		reg_arr[2*num_crc_bit_-1] = ~reg_arr[2*num_crc_bit_-1];
 	}
 }
+
+void CRC::RandomizedInput(int num_of_input){
+	num_of_input_ = num_of_input;
+	input_ = new bool[num_of_input_];
+	
+	for(int i=0; i<num_of_input_; i++){
+		input_[i] = rand() % 2;
+	}
+}
+
+void CRC::CoutInput(){
+	cout << "Input data: ";
+	for(int i=num_of_input_-1; i>=0; i--){
+		cout << input_[i];
+	}
+	cout << endl;
+}
+
+void CRC::CRCcheck(){
+	crc_cyclic_ = new bool[num_crc_bit_];
+	for(int i=0; i<num_crc_bit_; i++){
+		crc_cyclic_[i] = 0;
+	}
+	
+	for(int i=num_of_input_-1; i>=0; i--){
+		for(int j=num_crc_bit_-1; j>0; j--){
+			if(crc_polynomial_[j]){
+				crc_cyclic_[j] = crc_cyclic_[num_crc_bit_-1] ^ crc_cyclic_[j-1];
+			}else{
+				crc_cyclic_[j] = crc_cyclic_[j-1];
+			}
+		}
+		if(crc_polynomial_[0]){
+			crc_cyclic_[0] = crc_cyclic_[num_crc_bit_-1] ^ input_[i];
+		}else{
+			crc_cyclic_[0] = input_[i];
+		}
+	}
+}
+
+void CRC::CoutCRCcyclic(){
+	cout << "CRC cyclic: ";
+	for(int i=num_crc_bit_-1; i>=0; i--){
+		cout << crc_cyclic_[i];
+	}
+	cout << endl;
+}
+
+// void CRC::CRCmultiCal(){
+	
+// }
 
