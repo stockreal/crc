@@ -27,7 +27,7 @@ int main(int argc, char **argv){
 	cout << "crc start!!!" << endl;
 	cout << "start time = " << buffer << endl;
 	
-	CRC crc(4);		// can enter 4 for crc4, 6, 11, 16, 24
+	CRC crc(6);		// can enter 4 for crc4, 6, 11, 16, 24
 	crc.CoutCRCsetting();
 	crc.CRCcal();
 	crc.CoutRegVect();

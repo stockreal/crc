@@ -190,8 +190,8 @@ void CRC::CoutRegVect(){
 	
 	for(unsigned int i=0; i<reg_vect_.size(); i++){
 		
-		if(i % 4 == 0){
-			cout << "------------stage "<< i/4 <<"--------------" << endl;
+		if(i % num_crc_bit_ == 0){
+			cout << "------------stage "<< i/num_crc_bit_ <<"--------------" << endl;
 		}
 		CoutReg(reg_vect_[i],i);
 	}
@@ -201,8 +201,8 @@ void CRC::CoutRegVect(){
 void CRC::CoutFinalRegVect(){
 	for(unsigned int i=0; i<reg_vect_.size(); i++){
 		
-		if(i % 4 == 0){
-			cout << "------------stage "<< i/4 <<"--------------" << endl;
+		if(i % num_crc_bit_ == 0){
+			cout << "------------stage "<< i/num_crc_bit_ <<"--------------" << endl;
 		}
 		CoutRegFinal(reg_vect_[i],i);
 	}

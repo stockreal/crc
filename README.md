@@ -9,4 +9,5 @@ By entering number of crc bits in the constructor of the class CRC with 4, 6, 16
 make gpp
 
 ## example
+Below shows the bool equation of crc4.
 ![CRC4 bool equation](/images/crc_result.png)
