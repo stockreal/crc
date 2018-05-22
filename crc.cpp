@@ -11,7 +11,7 @@
 
 // to be noticed: crc_polynomial_ is the invese array of the following one. 
 bool crc_4[4] = {0,0,1,1};
-bool crc_6[6] = {1,1,0,0,0,1};
+bool crc_6[6] = {1,0,0,0,0,1};
 bool crc_11[11] = {1,1,0,0,0,1,0,0,0,0,1};
 bool crc_16[16] = {0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1};
 bool crc_24[24] = {1,0,1,1,0,0,1,0,1,0,1,1,0,0,0,1,0,0,0,1,0,1,1,1};
