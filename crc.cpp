@@ -105,8 +105,9 @@ void CRC::CoutCRCsetting(){
 }
 
 void CRC::SimplifyReg(vector<bool>& reg_arr, int index){
-	// int reg = index % num_crc_bit_;
+	int reg = index % num_crc_bit_;
 	int stage = index / num_crc_bit_;
+	// cout << "---------------stage " << stage <<" reg = "<< reg << endl;
 	vector<bool> temp_reg_vect;
 	temp_reg_vect.resize(num_crc_bit_);
 	for(int i=0; i<num_crc_bit_; i++){
@@ -118,11 +119,13 @@ void CRC::SimplifyReg(vector<bool>& reg_arr, int index){
 			int temp_index = (stage-1) * num_crc_bit_ + i;
 			for(int j=0; j<num_crc_bit_*2; j++){
 				if(reg_vect_[temp_index][j]){
-					reg_arr[j] = ~reg_arr[j];
+					reg_arr[j] = !reg_arr[j];
+					// cout << "reg_arr["<< j <<"] = " << reg_arr[j] << endl;
 				}
 			}
 		}
 	}
+	// cout << endl;
 }
 
 void CRC::SimplifyRegVect(){
