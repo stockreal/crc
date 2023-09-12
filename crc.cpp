@@ -12,6 +12,7 @@
 // to be noticed: crc_polynomial_ is the invese array of the following one. 
 bool crc_4[4] = {0,0,1,1};
 bool crc_6[6] = {1,0,0,0,0,1};
+bool crc_8[8] = {0,0,1,0,1,1,1,1};
 bool crc_11[11] = {1,1,0,0,0,1,0,0,0,0,1};
 bool crc_16[16] = {0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1};
 bool crc_24[24] = {1,0,1,1,0,0,1,0,1,0,1,1,0,0,0,1,0,0,0,1,0,1,1,1};
@@ -54,6 +55,12 @@ CRC::CRC(int sel){
 		crc_polynomial_ = new bool[num_crc_bit_];
 		for(int i=0; i<num_crc_bit_; i++){
 			crc_polynomial_[i] = crc_6[num_crc_bit_-i-1];
+		}
+	}else if(sel == 8){
+		num_crc_bit_ = 8;
+		crc_polynomial_ = new bool[num_crc_bit_];
+		for(int i=0; i<num_crc_bit_; i++){
+			crc_polynomial_[i] = crc_11[num_crc_bit_-i-1];
 		}
 	}else if(sel == 11){
 		num_crc_bit_ = 11;
